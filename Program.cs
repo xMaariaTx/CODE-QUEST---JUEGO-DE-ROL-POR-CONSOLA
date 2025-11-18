@@ -3,6 +3,8 @@ public class Program
 {
     static void Main()
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
         const string MenuTitle = "===== MAIN MENU - CODEQUEST =====";
         const string Welcome = "===== Welcome, {0} the {1} with level {2} =====";
         const string TrainYourWizard = "1. Train your wizard";
@@ -24,21 +26,39 @@ public class Program
         const string MessageThreeLevel = "You are a Summoner of Magical Breezes";
         const string MessageFourLevel = "Wow! You can summon dragons without burning down the lab!";
         const string MessageFiveLevel = "You have reached the rank of Arcane Master!";
-
         const string RaodenElantri = "Raoden el Elantri";
         const string ZynBuguejat = "Zyn el Buguejat";
         const string ArkaNullPointer = "Arka Nullpointer";
         const string ElarionLesBrases = "Elarion de les Brases";
         const string ItbWizard = "ITB-Wizard el Gris";
-
         const string FinalMessage = "Training complete! {0} has achieved a total power of {1} points and earned the title {2}";
+
+        const string MessageMonster = "A wild {0} appears! Rolling dice to determine the outcome of the battle...";
+        const string MessageHp = "The {0} has {1} HP";
+        const string MessageRoll = "You rolled a {0}";
+        const string MessageDamage = "The monster takes damage!";
+        const string MessageTotalHp = "The {0} has {1}";
+        const string MessageKey = "Press any key to roll the dice again...";
+        const string MessageDefeated = "The {0} has been defeated!";
+        const string MessageLevelUp = "Level Up!";
+
+        const string One = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
+        const string Two = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o     | |\r\n |       | /\r\n |     o |/ \r\n '-------'\r\n";
+        const string Three = "  ________\r\n  /       /|   \r\n /_______/ |\r\n | o     | |\r\n |   o   | /\r\n |     o |/ \r\n '-------'\r\n";
+        const string Four = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n |       | /\r\n | o   o |/ \r\n '-------'\r\n";
+        const string Five = " ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n |   o   | /\r\n | o   o |/ \r\n '-------'\r\n";
+        const string Six = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n | o   o | /\r\n | o   o |/ \r\n '-------'\r\n";
 
         int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 0;
         string name = "", tempName = "", levelText = "";
         bool validInput, pass = false;
         var random = new Random();
 
-        do
+        string[] monster = { "Wandering Skeleton 💀", "Forest Goblin 👹", "Green Slime 🟢", "Ember Wolf 🐺", "Giant Spider 🕷️", "Iron Golem 🤖", "Lost Necromancer 🧝‍", "Ancient Dragon 🐉" };
+        int[] hpMonsters = { 3, 5, 10, 11, 18, 15, 20, 50 };
+        string[] rollDice = { One, Two, Three, Four, Five, Six };
+
+        ; do
         {
             Console.WriteLine(MenuTitle);
 
@@ -129,9 +149,35 @@ public class Program
                     pass = true;
                     break;
                 case 2:
+                    int monsters = random.Next(0, 8);
 
+                    int liveMonsters = hpMonsters[monsters];
+
+                    Console.WriteLine(MessageMonster, monster[monsters]);
+                    Console.WriteLine(MessageHp, monster[monsters], hpMonsters[monsters]);
+
+                    while (liveMonsters > 0)
+                    {
+                        int dice = random.Next(0, 6);
+                        Console.WriteLine(MessageRoll, dice + 1);
+                        Console.WriteLine(rollDice[dice]);
+                        Console.WriteLine(MessageDamage);
+                        liveMonsters = liveMonsters - (dice + 1);
+                        if (liveMonsters < 0)
+                        {
+                            liveMonsters = 0;
+                        }
+                        Console.WriteLine(MessageHp, monster[monsters], liveMonsters);
+                        Console.WriteLine(MessageKey);
+                        Console.ReadLine();
+                    }
+                    Console.WriteLine(MessageDefeated, monster[monsters]);
+
+                    if (levelWizard < 5)
+                    {
+                        levelWizard++;
+                    }
                     break;
-
             }
         }
         while (op != 0);
