@@ -15,7 +15,6 @@ public class Program
         const string ShowAttacks = "6. Show attacks by LVL";
         const string DecodeAncient = "7. Decode ancient Scroll";
         const string Exit = "0. Exit Game";
-
         const string ChooseOption = "Choose an option (1-3) - (0) to exit: ";
         const string ChooseOptionError = "Invalid input. Please enter a number between 0 and 3.";
 
@@ -41,7 +40,6 @@ public class Program
         const string MessageKey = "Press any key to roll the dice again...";
         const string MessageDefeated = "The {0} has been defeated!";
         const string MessageLevelUp = "Level Up!";
-
         const string One = "   ________\r\n  /       /|   \r\n /_______/ |\r\n |       | |\r\n |   o   | /\r\n |       |/ \r\n '-------'\r\n";
         const string Two = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o     | |\r\n |       | /\r\n |     o |/ \r\n '-------'\r\n";
         const string Three = "  ________\r\n  /       /|   \r\n /_______/ |\r\n | o     | |\r\n |   o   | /\r\n |     o |/ \r\n '-------'\r\n";
@@ -49,7 +47,17 @@ public class Program
         const string Five = " ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n |   o   | /\r\n | o   o |/ \r\n '-------'\r\n";
         const string Six = "   ________\r\n  /       /|   \r\n /_______/ |\r\n | o   o | |\r\n | o   o | /\r\n | o   o |/ \r\n '-------'\r\n";
 
-        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 0;
+        const string MessageAttemps = "You have {0} attemps to mine for bits";
+        const string MessageX = "Insert the x axis: ";
+        const string MessageY = "Insert the y axis: ";
+        const string MessageNothingFound = "You mine at position [{0}] [{1}] but found nothing.";
+        const string MessageFound = "You mine at position [{0}][{1}] and you get {2} bits";
+        const string MessageRange = "Coordinates out of range (0-4). Please try again";
+
+        const int ColumnMatrix = 5;
+        const int FileMatrix = 5;
+
+        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 0, attemps = 5, coinNumber = 8;
         string name = "", tempName = "", levelText = "";
         bool validInput, pass = false;
         var random = new Random();
@@ -57,6 +65,10 @@ public class Program
         string[] monster = { "Wandering Skeleton 💀", "Forest Goblin 👹", "Green Slime 🟢", "Ember Wolf 🐺", "Giant Spider 🕷️", "Iron Golem 🤖", "Lost Necromancer 🧝‍", "Ancient Dragon 🐉" };
         int[] hpMonsters = { 3, 5, 10, 11, 18, 15, 20, 50 };
         string[] rollDice = { One, Two, Three, Four, Five, Six };
+
+        string[,] matrixVisble = new string[FileMatrix, ColumnMatrix];
+        string[,] matrixVisbleThings = new string[FileMatrix, ColumnMatrix];
+
 
         ; do
         {
@@ -178,8 +190,79 @@ public class Program
                         levelWizard++;
                     }
                     break;
+                case 3:
+                    for (int i = 0; i < FileMatrix; i++)
+                    {
+                        for (int j = 0; j < ColumnMatrix; j++)
+                        {
+                            matrixVisble[i, j] = "➖";
+                        }
+                    }
+                    for (int i = 0; i < FileMatrix; i++)
+                    {
+                        for (int j = 0; j < ColumnMatrix; j++)
+                        {
+                            matrixVisbleThings[i, j] = "-";
+                        }
+                    }
+                    for (int i = 0; i < coinNumber; i++)
+                    {
+                        int x = random.Next(FileMatrix);
+                        int y = random.Next(ColumnMatrix);
+
+                        if (matrixVisbleThings[x, y] == "-")
+                            matrixVisbleThings[x, y] = "🪙";
+                        else
+                            i--;
+                    }
+                    for (int i = 0; i < attemps; i++)
+                    {
+                        Console.WriteLine($"Attemp {i + 1} of {attemps}");
+
+                        Console.Write("  ");
+                        for (int j = 0; j < ColumnMatrix; j++)
+                        {
+                            Console.Write(j + "  ");
+                        }
+                        Console.WriteLine();
+
+                        for (int b = 0; b < FileMatrix; b++)
+                        {
+                            Console.Write(b + " ");
+                            for (int j = 0; j < ColumnMatrix; j++)
+                            {
+                                Console.Write(matrixVisble[b, j] + " ");
+                            }
+                            Console.WriteLine();
+                        }
+                        Console.Write(MessageX);
+                        int x = Convert.ToInt32(Console.ReadLine());
+                        Console.Write(MessageY);
+                        int y = Convert.ToInt32(Console.ReadLine());
+
+                        if (x < 0 || x >= FileMatrix || y < 0 || y >= ColumnMatrix)
+                        {
+                            Console.WriteLine(MessageRange);
+                            i--;
+                        }
+                        if (matrixVisbleThings[x, y] == "🪙")
+                        {
+                            int bits = random.Next(5, 51);
+                            matrixVisble[x, y] = "🪙";
+                            matrixVisbleThings[x, y] = "-";
+
+                            Console.WriteLine(MessageFound, x, y, bits);
+                        }
+                        else
+                        {
+                            matrixVisble[x, y] = "❌";
+                            Console.WriteLine(MessageNothingFound, x, y);
+                        }
+                    }
+                    break;
             }
         }
         while (op != 0);
     }
 }
+
