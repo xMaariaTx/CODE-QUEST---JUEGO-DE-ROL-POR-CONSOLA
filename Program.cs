@@ -54,11 +54,14 @@ public class Program
         const string MessageFound = "You mine at position [{0}][{1}] and you get {2} bits";
         const string MessageRange = "Coordinates out of range (0-4). Please try again";
 
+        const string MessageEmptyInventory = "Your inventory is empty";
+        const string MessageInventory = "Your inventory contains: ";
+
         const int ColumnMatrix = 5;
         const int FileMatrix = 5;
 
         int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 0, attemps = 5, coinNumber = 8;
-        string name = "", tempName = "", levelText = "";
+        string name = "", tempName = "", levelText = "", item = "";
         bool validInput, pass = false;
         var random = new Random();
 
@@ -66,9 +69,10 @@ public class Program
         int[] hpMonsters = { 3, 5, 10, 11, 18, 15, 20, 50 };
         string[] rollDice = { One, Two, Three, Four, Five, Six };
 
+        string[] inventory = new string[0];
+
         string[,] matrixVisble = new string[FileMatrix, ColumnMatrix];
         string[,] matrixVisbleThings = new string[FileMatrix, ColumnMatrix];
-
 
         ; do
         {
@@ -257,6 +261,32 @@ public class Program
                         {
                             matrixVisble[x, y] = "❌";
                             Console.WriteLine(MessageNothingFound, x, y);
+                        }
+                    }
+                    break;
+                case 4:
+                    if (item != "")
+                    {
+                        string[] tempArray = new string[inventory.Length + 1];
+                        for (int i = 0; i < inventory.Length; i++)
+                        {
+                            tempArray[i] = inventory[i];
+                        }
+                        tempArray[tempArray.Length - 1] = item;
+                        inventory = tempArray;
+                        item = "";
+                    }
+
+                    if (inventory.Length == 0)
+                    {
+                        Console.WriteLine(MessageEmptyInventory);
+                    }
+                    else
+                    {
+                        Console.WriteLine(MessageInventory);
+                        for (int i = 0; i < inventory.Length; i++)
+                        {
+                            Console.WriteLine(inventory[i]);
                         }
                     }
                     break;
