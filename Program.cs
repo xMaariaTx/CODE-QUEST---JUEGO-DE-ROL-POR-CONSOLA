@@ -66,10 +66,15 @@ public class Program
         const string MessageRestant = "You have purchased: {0} for {1} bits. Bits remaining: {2}";
         const string MessageNoBits = "You do not have enough bits to purchase this item.";
 
+        const string MessageTrainingLevels = "Keep training to unlock new powers!";
+        const string MessageAvailableAttacksLevels = "Available attacks for level {0}";
+
         const int ColumnMatrix = 5;
         const int FileMatrix = 5;
 
-        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 0, attemps = 5, coinNumber = 8, bitsUsers = 0;
+        const int LevelsNumbers = 5;
+
+        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 1, attemps = 5, coinNumber = 8, bitsUsers = 0;
         string name = "", tempName = "", levelText = "", item = "";
         bool validInput, pass = false;
         var random = new Random();
@@ -82,6 +87,15 @@ public class Program
 
         string[] objectsItems = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" };
         int[] objectsPrice = { 30, 10, 50, 40, 20 };
+
+        string[][] attacksuser = new string[LevelsNumbers][]
+            {
+                new string[] { "Magic Spark 💫" },
+                new string[] { "Fireball 🔥", "Ice Ray 🥏", "Arcane Shield ⚕️" },
+                new string[] { "Meteor ☄️", "Pure Energy Explosion 💥", "Minor Charm 🎭", "Air Strike 🍃" },
+                new string[] { "Wave of Light ⚜️", "Storm of Wings 🐦" },
+                new string[] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" },
+            };
 
         string[,] matrixVisble = new string[FileMatrix, ColumnMatrix];
         string[,] matrixVisbleThings = new string[FileMatrix, ColumnMatrix];
@@ -329,6 +343,15 @@ public class Program
                         }
                     }
                     item = objectsItems[userSelection - 1];
+                    break;
+                case 6:
+                    Console.WriteLine(MessageAvailableAttacksLevels, levelWizard);
+
+                    for (int i = 0; i < attacksuser[levelWizard - 1].Length; i++)
+                    {
+                        Console.WriteLine(attacksuser[levelWizard - 1][i]);
+                    }
+                    Console.WriteLine(MessageTrainingLevels);
                     break;
             }
         }
