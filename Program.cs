@@ -57,10 +57,19 @@ public class Program
         const string MessageEmptyInventory = "Your inventory is empty";
         const string MessageInventory = "Your inventory contains: ";
 
+        const string MessageChooseItems = "You choose to buy items";
+        const string MessageBits = "You have {0} bits available";
+        const string MessagePurchase = "Items available for purchase: ";
+        const string MessageItems = "{0} - {1} - Price: {2}";
+        const string MessageWishBuyItem = "Select the item you wish to buy (1-5) (0 to exit):";
+        const string MessageExitShop = "Thank you for visiting the shop!";
+        const string MessageRestant = "You have purchased: {0} for {1} bits. Bits remaining: {2}";
+        const string MessageNoBits = "You do not have enough bits to purchase this item.";
+
         const int ColumnMatrix = 5;
         const int FileMatrix = 5;
 
-        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 0, attemps = 5, coinNumber = 8;
+        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 0, attemps = 5, coinNumber = 8, bitsUsers = 0;
         string name = "", tempName = "", levelText = "", item = "";
         bool validInput, pass = false;
         var random = new Random();
@@ -70,6 +79,9 @@ public class Program
         string[] rollDice = { One, Two, Three, Four, Five, Six };
 
         string[] inventory = new string[0];
+
+        string[] objectsItems = { "Iron Dagger 🗡️", "Healing Potion ⚗️", "Ancient Key 🗝️", "Crossbow 🏹", "Metal Shield 🛡️" };
+        int[] objectsPrice = { 30, 10, 50, 40, 20 };
 
         string[,] matrixVisble = new string[FileMatrix, ColumnMatrix];
         string[,] matrixVisbleThings = new string[FileMatrix, ColumnMatrix];
@@ -252,6 +264,7 @@ public class Program
                         if (matrixVisbleThings[x, y] == "🪙")
                         {
                             int bits = random.Next(5, 51);
+                            bitsUsers += bits;
                             matrixVisble[x, y] = "🪙";
                             matrixVisbleThings[x, y] = "-";
 
@@ -265,18 +278,6 @@ public class Program
                     }
                     break;
                 case 4:
-                    if (item != "")
-                    {
-                        string[] tempArray = new string[inventory.Length + 1];
-                        for (int i = 0; i < inventory.Length; i++)
-                        {
-                            tempArray[i] = inventory[i];
-                        }
-                        tempArray[tempArray.Length - 1] = item;
-                        inventory = tempArray;
-                        item = "";
-                    }
-
                     if (inventory.Length == 0)
                     {
                         Console.WriteLine(MessageEmptyInventory);
@@ -289,6 +290,45 @@ public class Program
                             Console.WriteLine(inventory[i]);
                         }
                     }
+                    break;
+                case 5:
+                    Console.WriteLine(MessageChooseItems);
+                    Console.WriteLine(MessageBits, bitsUsers);
+                    Console.WriteLine(MessagePurchase);
+
+                    for (int i = 0; i < objectsItems.Length; i++)
+                    {
+                        Console.WriteLine(MessageItems, (i + 1), objectsItems[i], objectsPrice[i]);
+                    }
+
+                    Console.WriteLine(MessageWishBuyItem);
+                    int userSelection = Int32.Parse(Console.ReadLine());
+
+                    if (userSelection == 0)
+                    {
+                        Console.WriteLine(MessageExitShop);
+                    }
+                    else
+                    {
+                        if (bitsUsers >= objectsPrice[userSelection - 1])
+                        {
+                            bitsUsers -= objectsPrice[userSelection - 1];
+                            Console.WriteLine(MessageRestant, objectsItems[userSelection - 1], objectsPrice[userSelection - 1], bitsUsers);
+
+                            string[] tempArray = new string[inventory.Length + 1];
+                            for (int i = 0; i < inventory.Length; i++)
+                            {
+                                tempArray[i] = inventory[i];
+                            }
+                            tempArray[tempArray.Length - 1] = objectsItems[userSelection - 1];
+                            inventory = tempArray;
+                        }
+                        else
+                        {
+                            Console.WriteLine(MessageNoBits);
+                        }
+                    }
+                    item = objectsItems[userSelection - 1];
                     break;
             }
         }
