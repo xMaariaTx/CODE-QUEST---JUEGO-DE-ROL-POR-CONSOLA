@@ -15,7 +15,7 @@ public class Program
         const string ShowAttacks = "6. Show attacks by LVL";
         const string DecodeAncient = "7. Decode ancient Scroll";
         const string Exit = "0. Exit Game";
-        const string ChooseOption = "Choose an option (1-3) - (0) to exit: ";
+        const string ChooseOption = "Choose an option (1-7) - (0) to exit: ";
         const string ChooseOptionError = "Invalid input. Please enter a number between 0 and 3.";
 
         const string NameWizard = "Introduce the name of your wizard";
@@ -69,14 +69,32 @@ public class Program
         const string MessageTrainingLevels = "Keep training to unlock new powers!";
         const string MessageAvailableAttacksLevels = "Available attacks for level {0}";
 
+        const string MessageAncientScroll = "You found an ancient scroll with encrypted messages!";
+        const string MessageScrollToDecode = "Scroll to decode";
+        const string MessageScrollOne = "The 🐲 sleeps in the mountain of fire 🔥";
+        const string MessageScrollTwo = "Ancient magic flows through the crystal caves ";
+        const string MessageScrollThree = "Spell: Ignis 5 🔥, Aqua 6 💧, Terra 3 🌍, Ventus 8 🌪️ ";
+        const string MessageFollowingScroll = "You must decode the following scroll: ";
+        const string MessageChooseOperation = "Choose a decoding operation: ";
+        const string MessageOperationOne = " 1. Decipher spell (remove spaces)";
+        const string MessageOperationTwo = " 2. Count magical runes (vowels)";
+        const string MessageOperationThree = " 3. Extract secret code (numbers)";
+        const string MessageDeciphred = "Deciphered Spell: {0}";
+        const string MessageVowelsFound = "{0} magical runes (vowels) found";
+        const string PossibleVowels = "aàáeèéiíïoòóuúüAÀÁEÈÉIÍÏOÒÓUÚÜ";
+        const string PossibleNumbers = "0123456789";
+        const string MessageScanning = "Scanning: ...";
+        const string MessageDecodedNumber = "🔮 Decoded number: {0}";
+        const string MessageCongratulations = "Congratulations! You have successfully decoded all parts of the scroll";
+
         const int ColumnMatrix = 5;
         const int FileMatrix = 5;
 
         const int LevelsNumbers = 5;
 
-        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 1, attemps = 5, coinNumber = 8, bitsUsers = 0;
-        string name = "", tempName = "", levelText = "", item = "";
-        bool validInput, pass = false;
+        int op = 0, inicial_level = 1, days = 5, hours_level = 0, levelWizard = 1, attemps = 5, coinNumber = 8, bitsUsers = 0, vowelsCount = 0;
+        string name = "", tempName = "", levelText = "", item = "", noEspaces = "", onlyNumbers = "";
+        bool validInput, pass = false, scrollOne = false, scrollTwo = false, scrollThree = false;
         var random = new Random();
 
         string[] monster = { "Wandering Skeleton 💀", "Forest Goblin 👹", "Green Slime 🟢", "Ember Wolf 🐺", "Giant Spider 🕷️", "Iron Golem 🤖", "Lost Necromancer 🧝‍", "Ancient Dragon 🐉" };
@@ -96,6 +114,11 @@ public class Program
                 new string[] { "Wave of Light ⚜️", "Storm of Wings 🐦" },
                 new string[] { "Cataclysm 🌋", "Portal of Chaos 🌀", "Arcane Blood Pact 🩸", "Elemental Storm ⛈️" },
             };
+
+        string[] DecodeOptions =
+        {
+            MessageScrollOne, MessageScrollTwo, MessageScrollThree
+        };
 
         string[,] matrixVisble = new string[FileMatrix, ColumnMatrix];
         string[,] matrixVisbleThings = new string[FileMatrix, ColumnMatrix];
@@ -352,6 +375,67 @@ public class Program
                         Console.WriteLine(attacksuser[levelWizard - 1][i]);
                     }
                     Console.WriteLine(MessageTrainingLevels);
+                    break;
+                case 7:
+                    Console.WriteLine(MessageAncientScroll);
+                    Console.WriteLine();
+                    Console.WriteLine(MessageScrollToDecode);
+                    for (int i = 0; i < DecodeOptions.Length; i++)
+                    {
+                        Console.WriteLine($"  {i + 1}. {DecodeOptions[i]}");
+                    }
+                    Console.WriteLine();
+                    Console.WriteLine(MessageFollowingScroll);
+                    Console.WriteLine(MessageChooseOperation);
+                    Console.WriteLine(MessageOperationOne);
+                    Console.WriteLine(MessageOperationTwo);
+                    Console.WriteLine(MessageOperationThree);
+
+                    int introduceNumber = Int32.Parse(Console.ReadLine());
+
+                    switch (introduceNumber)
+                    {
+                        case 1:
+                            for (int i = 0; i < MessageScrollOne.Length; i++)
+                            {
+                                if (MessageScrollOne[i] != ' ')
+                                {
+                                    noEspaces += MessageScrollOne[i];
+                                }
+                            }
+                            Console.WriteLine(MessageDeciphred, noEspaces);
+                            scrollOne = true;
+                            break;
+                        case 2:
+                            for (int i = 0; i < MessageScrollTwo.Length; i++)
+                            {
+                                char c = MessageScrollTwo[i];
+                                if (PossibleVowels.Contains(c))
+                                {
+                                    vowelsCount++;
+                                }
+                            }
+                            Console.WriteLine(MessageVowelsFound, vowelsCount);
+                            scrollTwo = true;
+                            break;
+                        case 3:
+                            for (int i = 0; i < MessageScrollThree.Length; i++)
+                            {
+                                char c = MessageScrollThree[i];
+                                if (PossibleNumbers.Contains(c))
+                                {
+                                    onlyNumbers += c;
+                                }
+                            }
+                            Console.WriteLine(MessageScanning);
+                            Console.WriteLine(MessageDecodedNumber, onlyNumbers);
+                            scrollThree = true;
+                            break;
+                    }
+                    if (scrollOne && scrollTwo && scrollThree)
+                    {
+                        Console.WriteLine(MessageCongratulations);
+                    }
                     break;
             }
         }
