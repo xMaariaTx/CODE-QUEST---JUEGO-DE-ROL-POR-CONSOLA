@@ -44,6 +44,21 @@ Exit game - Sortir
 
 ## 🔧 Funcionalitats per Opció
 
+### 0️⃣ Cas Main Joc de Proves
+|#|Categoria|Entrada (op)|Variables Clau (Abans)|Condició/Lògica|Variables Clau (Després)|Resultat Esperat|
+|:----|:----|:----|:----|:----|:----|:----|
+|1|Normal|1 (Train wizard)|op=0, validInput=true|try-catch és reeixit. switch executa case 1.|op=1, validInput=true|Executa el cas 1 (Entrenament). El bucle continua.|
+|2|Normal|4 (Show inventory)|op=1, validInput=true|try-catch és reeixit. switch executa case 4.|op=4, validInput=true|Executa el cas 4 (Inventari). El bucle continua.|
+|3|Normal|7 (Decode Scroll)|op=4, validInput=true|try-catch és reeixit. switch executa case 7.|op=7, validInput=true|Executa el cas 7 (Descodificació). El bucle continua.|
+|---|---|---|---|---|---|---|
+|4|Límit (Sortida)|0 (Exit Game)|op=7, validInput=true|try-catch és reeixit. switch executa case 0. Condició op != 0 és FALSE.|op=0, validInput=true|El joc surt del bucle principal (do-while).|
+|5|Límit (Superior)|7|op=0, validInput=true|try-catch és reeixit. switch executa case 7.|op=7, validInput=true|Executa el cas 7. El bucle continua.|
+|---|---|---|---|---|---|---|
+|6|Error (Fora de Rang Alt)|8|op=7, validInput=true|try-catch és reeixit. switch executa el default (implícit).|op=8, validInput=true|Repeteix el menú sense executar cap acció, ja que op != 0 és TRUE.|
+|7|Error (Format - Text)|"A"|op=8, validInput=true|Falla a Convert.ToInt32 (FormatException). S'atrapa l'error, s'imprimeix ChooseOptionError i s'estableix validInput = false.|op=8 (manté valor anterior), validInput=false|Imprimeix el missatge d'error i repeteix el menú.|
+|8|Error (Format - Decimal)|3.5|op=8, validInput=false|Falla a Convert.ToInt32 (FormatException). S'atrapa l'error i s'estableix validInput = false.|op=8 (manté valor anterior), validInput=false|Imprimeix el missatge d'error i repeteix el menú.|
+
+
 ### 1️⃣ Train your wizard
 - Demana el **nom del mag** i el capitalitza.
 - Simula **5 dies d’entrenament** generant:
