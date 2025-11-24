@@ -1,4 +1,4 @@
-# BLOC1.PA03 - CODEQUEST DLC
+# 🧱 BLOC1.PA03 - CODEQUEST DLC
 
 ## ⚙️ Requisits del Proyecte
 - Tots els codis tenen que incluir **control d'errors**
@@ -10,20 +10,22 @@
 # ACTIVITAT: CODEQUEST - JOC DE ROL PER CONSOLA
   
 ## 📜 Descripció General
-**CodeQuest** es un joc de rol (RPG) per consola desarollat en **C#**, on el jugador controlar el que un mag pot fer: 
-- Entrenar i aumentar el seu nivell
-- Conseguir recursos(bits, la moneda del joc)
-- Comprar objectes i millorar el seu inventari
-- Descifrar pergamins antics
+**CodeQuest** és un RPG de consola desenvolupat en **C#**, on el jugador controla un mag capaç de:
+- Entrenar per augmentar el seu nivell
+- Combatre monstres i guanyar experiència
+- Minar recursos (*bits*, la moneda del joc)
+- Comprar objectes per millorar el seu inventari
+- Descobrir i resoldre pergamins antics
   
-El joc inclueix un **menu principals amb 7 opcions funcionals** mes la opcio de sortir. Cada capitol es tindra que organitzar en rames especifiques, d'aquesta manera:
-- chapter/trainwizard
-- chapter/increaselvl
-- chapter/lootthemine
-- chapter/showinventory
-- chapter/buyitems
-- chapter/showattacks
-- chapter/decodescroll
+El joc compta amb un **menú principal de 7 opcions** + l’opció de sortir.  
+Cada capítol està implementat en una branca específica:
+- `chapter/trainwizard`
+- `chapter/increaselvl`
+- `chapter/lootthemine`
+- `chapter/showinventory`
+- `chapter/buyitems`
+- `chapter/showattacks`
+- `chapter/decodescroll`
 
 ## 🕹️ Menú Principal
 El menu es mostrara repetidament fins que l'usuari escull sortir:  
@@ -43,9 +45,11 @@ Exit game - Sortir
 ## 🔧 Funcionalitats per Opció
 
 ### 1️⃣ Train your wizard
-- Demana el nom del mag i el capitalitza correctament.
-- Simula **5 dies d’entrenament**, generant aleatòriament hores d’entrenament i punts de poder.
-- Assigna un **títol/rang** segons els punts de poder acumulats:
+- Demana el **nom del mag** i el capitalitza.
+- Simula **5 dies d’entrenament** generant:
+  - Hores d’entrenament (1–24)
+  - Punts de poder (1–10)
+- Segons el total acumulat, assigna un **títol**:
 
 | Punts de Poder | Títol | Missatge |
 |----------------|-------|----------|
@@ -55,10 +59,13 @@ Exit game - Sortir
 | 35-39 | Elarion de les Brases | Uau! Pots invocar dracs sense cremar el laboratori! |
 | ≥ 40 | ITB-Wizard el Gris | Has assolit el rang de Mestre dels Arcans! |
 
+---
+
 ### 2️⃣ Increase LVL (Combat amb daus)
-- Apareix un **monstre aleatori** amb punts de vida (HP).
-- El jugador tira un dau (1–6) per atacar, mostrant l’ASCII art del dau.
-- Quan el HP del monstre arriba a 0, el jugador puja de nivell (màx. 5).
+- Apareix un **monstre aleatori** amb HP específics.
+- El jugador tira un dau (1–6) amb ASCII art.
+- El resultat = dany infligit al monstre.
+- Si el monstre arriba a 0 HP → **el jugador puja de nivell** (fins a 5).
 
 | Monstre | HP |
 |---------|----|
@@ -71,18 +78,24 @@ Exit game - Sortir
 | Lost Necromancer 🧝‍♂️ | 20 |
 | Ancient Dragon 🐉 | 50 |
 
+---
+
 ### 3️⃣ Loot the mine (Mineria)
-- Matriu 5x5 inicial buida, amb **5 intents de mineria**.
-- L’usuari introdueix coordenades X, Y.
-- Monedes aleatòries: si encerta, guanya entre 5 i 50 bits.
-- Símbols a la matriu:  
+- Matriu **5x5** inicialment buida.
+- Jugador amb **5 intents**.
+- Introducció de coordenades X i Y.
+- Si encerta una posició amb moneda: → guanya entre **5 i 50 bits**.
   - `➖` = No excavat  
   - `🪙` = Moneda trobada  
   - `❌` = Excavació sense èxit
 
+---
+
 ### 4️⃣ Show inventory
 - Mostra els objectes comprats.
-- Indica si l’inventari està buit.
+- Si està buit → informa l’usuari.
+
+---
 
 ### 5️⃣ Buy items
 - Mostra objectes disponibles i preus.  
@@ -96,6 +109,12 @@ Exit game - Sortir
 | Crossbow 🏹 | 40 |
 | Metal Shield 🛡️ | 20 |
 
+- Si el jugador té prou bits:
+  - es descompta el preu
+  - s’afegeix el producte a l’inventari (array ampliable)
+
+ ---
+
 ### 6️⃣ Show attacks by LVL
 - Mostra els atacs disponibles segons el nivell del mag:
 
@@ -107,12 +126,16 @@ Exit game - Sortir
 | 4 | Wave of Light ⚜️, Storm of Wings 🐦 |
 | 5 | Cataclysm 🌋, Portal of Chaos 🌀, Arcane Blood Pact 🩸, Elemental Storm ⛈️ |
 
+---
+
 ### 7️⃣ Decode ancient Scroll
 - Tres sub-opcions:
   1. Eliminar espais del primer pergamí
   2. Comptar vocals (incloses accentuades) del segon pergamí
   3. Extreure números del tercer pergamí
 - Quan es completen, mostra missatge d’èxit.
+
+---
 
 ## 📦 Arrays Fixos
 - **Objectes per comprar:** Iron Dagger 🗡️, Healing Potion ⚗️, Ancient Key 🗝️, Crossbow 🏹, Metal Shield 🛡️  
@@ -126,6 +149,10 @@ Exit game - Sortir
 - Botiga amb objectes variables segons el nivell del mag.
 - Ús de colors a la consola.
 - Sistema de missions amb recompenses.
+
+## ✨ Conclusió
+**CodeQuest** és un projecte complet que combina estructures de control, arrays, validació d’errors, i organització per branques, tot dins d’un joc de consola entretingut i ampliable.
+
 
 
 
