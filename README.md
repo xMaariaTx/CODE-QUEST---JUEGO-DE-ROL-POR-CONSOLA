@@ -1,20 +1,11 @@
-## Capítol 2️⃣ - Increase LVL (Combat amb daus)
-
-**Objectiu:** Combatir un monstre per pujar de nivell.  
-
-**Funcionament:**
-- Apareix un monstre aleatori amb HP determinat.  
-- El jugador tira un dau (1–6) per atacar.
-- Cada tirada resta HP al monstre i mostra un ASCII art del dau.
-- Quan HP = 0, el jugador puja de nivell (màx. 5).
+## Capítol 4️⃣ - Show Inventory
+**Resum de l’enunciat:**  
+- Mostra tots els objectes comprats.  
+- Si l’inventari està buit, mostra missatge indicatiu.
 
 **Implementació al codi:**  
-- Selecció aleatòria del monstre i HP amb `Random.Next()`.  
-- Bucle `while` fins a que `liveMonsters` = 0:  
-  - Tirada de dau aleatòria (`Random.Next(0,6)`)  
-  - Mostra ASCII art corresponent (`rollDice[dice]`)  
-  - Resta HP del monstre i mostra missatge  
-  - `Console.ReadKey()` per pausar entre tirades  
-- Quan el monstre és derrotat, incrementa `levelWizard`.
+- Comprova la longitud de `inventory`.  
+- Si està buit → `MessageEmptyInventory`.  
+- Si té elements → llista tots els objectes.
 
 **Joc de proves**
